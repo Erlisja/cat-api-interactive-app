@@ -1,5 +1,5 @@
 import * as Carousel from "./Carousel.js";
-import axios from "axios";
+
 
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
@@ -11,7 +11,7 @@ const progressBar = document.getElementById("progressBar");
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
 // Step 0: Store your API key here for reference and easy access.
-const API_KEY = "";
+const API_KEY = "live_owKTGYHtMAIXIAhEjAZKw8Z7ueExz8oB2hOEMcNrSJuP30FJiBGyiliLIfpXSoUH";
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -21,6 +21,33 @@ const API_KEY = "";
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
+
+async function initialLoad() {
+    const res = await axios.get("https://api.thecatapi.com/v1/breeds", {
+        headers: {
+            "x-api-key": API_KEY
+        }
+    });
+    // create the default option for the select element
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a breed...";
+    // mark it as selected and disable it after selecting a breed
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    // append the defaultOption to the select element
+    breedSelect.appendChild(defaultOption);
+
+    // create the breed options dynamically
+    res.data.forEach((breed) => {
+        const option = document.createElement("option");
+        option.value = breed.id;
+        option.textContent = breed.name;
+        breedSelect.appendChild(option);
+    });
+}
+initialLoad();
+
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -89,7 +116,7 @@ const API_KEY = "";
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 export async function favourite(imgId) {
-  // your code here
+// your code here
 }
 
 /**
