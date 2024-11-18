@@ -1,4 +1,6 @@
+//import axios from "axios";
 import * as Carousel from "./Carousel.js";
+
 
 
 // The breed selection input element.
@@ -22,12 +24,129 @@ const API_KEY = "live_owKTGYHtMAIXIAhEjAZKw8Z7ueExz8oB2hOEMcNrSJuP30FJiBGyiliLIf
  * This function should execute immediately.
  */
 
+ //#region  USING FETCH
+// async function initialLoad() {
+//     const res = await fetch("https://api.thecatapi.com/v1/breeds", {
+
+//         headers: {
+//             "x-api-key": API_KEY
+//         }
+//     });
+//     const data = await res.json();
+//     // create the default option for the select element
+//     const defaultOption = document.createElement("option");
+//         defaultOption.value = "";
+//         defaultOption.textContent = "Select a breed...";
+//         // mark it as selected and disable it after selecting a breed
+//         defaultOption.selected = true;
+//         defaultOption.disabled = true;
+//         // append the defaultOption to the select element
+//         breedSelect.appendChild(defaultOption);
+    
+//         // create the breed options dynamically
+//         data.forEach((breed) => {
+//             const option = document.createElement("option");
+//             option.value = breed.id;
+//             option.textContent = breed.name;
+//             breedSelect.appendChild(option);
+//         });
+//     }
+//     initialLoad();
+    
+
+
+/**
+ * 2. Create an event handler for breedSelect that does the following:
+ * - Retrieve information on the selected breed from the cat API using fetch().
+ *  - Make sure your request is receiving multiple array items!
+ *  - Check the API documentation if you're only getting a single object.
+ * - For each object in the response array, create a new element for the carousel.
+ *  - Append each of these new elements to the carousel.
+ * - Use the other data you have been given to create an informational section within the infoDump element.
+ *  - Be creative with how you create DOM elements and HTML.
+ *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
+ *  - Remember that functionality comes first, but user experience and design are important.
+ * - Each new selection should clear, re-populate, and restart the Carousel.
+ * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
+ */
+
+
+
+// breedSelect.addEventListener("change", async () => {
+//     // clear the carousel
+//     Carousel.clear();
+//     // get the selected breed
+//     const selectedBreed = breedSelect.value;
+//     // get the breed information
+//     const res = await fetch(`https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${selectedBreed}`, {
+//         headers: {
+//             "x-api-key": API_KEY
+//         }
+//     });
+//     const dataImages = await res.json();
+
+//     // get the breed information
+//     const breedInfo = await fetch (`https://api.thecatapi.com/v1/breeds/${selectedBreed}`, {
+//         headers: {
+//             "x-api-key": API_KEY
+//         }
+//     });
+//     const breedData = await breedInfo.json();
+//     // create the carousel items
+//     dataImages.forEach((image) => {
+//         const carouselItem = Carousel.createCarouselItem(image.url, breedData.name, image.id);
+
+      
+
+//         Carousel.appendCarousel(carouselItem);
+       
+//     });
+
+//     // create the breed information
+//     infoDump.innerHTML = `
+//         <h2>${breedData.name}</h2>
+//         <p>${breedData.description}</p>
+//         <p>Origin: ${breedData.origin}</p>
+//         <p>Life Span: ${breedData.life_span}</p>
+//         <p>Temperament: ${breedData.temperament}</p>
+//     `;
+ 
+//     // restart the carousel
+//     Carousel.start();
+    
+//  });
+
+// #endregion
+
+
+
+// #region USING AXIOS
+
+/**
+ * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
+ */
+
+
+
+/**
+ * 4. Change all of your fetch() functions to axios!
+ * - axios has already been imported for you within index.js.
+ * - If you've done everything correctly up to this point, this should be simple.
+ * - If it is not simple, take a moment to re-evaluate your original code.
+ * - Hint: Axios has the ability to set default headers. Use this to your advantage
+ *   by setting a default header with your API key so that you do not have to
+ *   send it manually with all of your requests! You can also set a default base URL!
+ */
+
+// ======== USING AXIOS =========
+// setting the default base URL
+  axios.defaults.baseURL= "https://api.thecatapi.com/v1/";
+// setting the default headers
+  axios.defaults.headers.common['x-api-key'] = API_KEY;
+
+
 async function initialLoad() {
-    const res = await axios.get("https://api.thecatapi.com/v1/breeds", {
-        headers: {
-            "x-api-key": API_KEY
-        }
-    });
+    const res = await axios.get(`breeds`);
     // create the default option for the select element
     const defaultOption = document.createElement("option");
     defaultOption.value = "";
@@ -49,33 +168,48 @@ async function initialLoad() {
 initialLoad();
 
 
-/**
- * 2. Create an event handler for breedSelect that does the following:
- * - Retrieve information on the selected breed from the cat API using fetch().
- *  - Make sure your request is receiving multiple array items!
- *  - Check the API documentation if you're only getting a single object.
- * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
- * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
- * - Each new selection should clear, re-populate, and restart the Carousel.
- * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
- */
 
-/**
- * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
- */
-/**
- * 4. Change all of your fetch() functions to axios!
- * - axios has already been imported for you within index.js.
- * - If you've done everything correctly up to this point, this should be simple.
- * - If it is not simple, take a moment to re-evaluate your original code.
- * - Hint: Axios has the ability to set default headers. Use this to your advantage
- *   by setting a default header with your API key so that you do not have to
- *   send it manually with all of your requests! You can also set a default base URL!
- */
+
+breedSelect.addEventListener("change", async () => {
+    // clear the carousel
+    Carousel.clear();
+    // get the selected breed
+    const selectedBreed = breedSelect.value;
+    // get the breed information
+    const res = await axios.get(`images/search?limit=10&breed_ids=${selectedBreed}`);
+    // get the breed information
+    const breedInfo = await axios.get(`breeds/${selectedBreed}`);
+    // create the carousel items
+    res.data.forEach((image) => {
+        const carouselItem = Carousel.createCarouselItem(image.url, breedInfo.data.name, image.id);
+
+      
+
+        Carousel.appendCarousel(carouselItem);
+       
+    });
+
+    // create the breed information
+    infoDump.innerHTML = `
+        <h2>${breedInfo.data.name}</h2>
+        <p>${breedInfo.data.description}</p>
+        <ul>
+        <li><strong>Origin: </strong> ${breedInfo.data.origin}</li>
+        <li><strong>Life Span:</strong> ${breedInfo.data.life_span}</li>
+        <li><strong>Temperament:</strong> ${breedInfo.data.temperament}</li>
+        </ul>
+    `;
+ 
+    // restart the carousel
+    Carousel.start();
+    
+});
+
+
+//#endregion
+
+
+
 /**
  * 5. Add axios interceptors to log the time between request and response to the console.
  * - Hint: you already have access to code that does this!
@@ -99,6 +233,7 @@ initialLoad();
  *   with for future projects.
  */
 
+
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
  * - In your request interceptor, set the body element's cursor style to "progress."
@@ -116,7 +251,7 @@ initialLoad();
  * - You can call this function by clicking on the heart at the top right of any image.
  */
 export async function favourite(imgId) {
-// your code here
+    // your code here
 }
 
 /**

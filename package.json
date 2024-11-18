@@ -1,26 +1,22 @@
 {
-  "name": "ajax-fetch-and-axios-lab-template",
+  "name": "carousel-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
+  "description": "A project demonstrating a carousel with Bootstrap and Axios",
+  "main": "index.js",
   "scripts": {
-    "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "start": "live-server",
+    "build": "webpack --mode production"
   },
   "dependencies": {
-    "@popperjs/core": "2.11.7",
-     "axios": "^1.7.7",
-    "bootstrap": "^5.3.3",
-    "jquery": "3.6.4",
-    "parcel-bundler": "^1.6.1"
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.x"
   },
   "devDependencies": {
-    "@babel/core": "7.2.0",
-    "typescript": "4.4.4"
+    "live-server": "^1.x.x",
+    "webpack": "^5.x.x",
+    "webpack-cli": "^5.x.x"
   },
-  "resolutions": {
-    "@babel/preset-env": "7.13.8"
-  },
-  "keywords": []
+  "type": "module",
+  "author": "Your Name",
+  "license": "MIT"
 }
-
