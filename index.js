@@ -217,6 +217,43 @@ breedSelect.addEventListener("change", async () => {
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
 
+// #region USING FETCH
+
+// Add a request interceptor to capture the start time
+axios.interceptors.request.use(
+    (config) => {
+      // Log when the request starts
+      config.metadata = { startTime: new Date() };  // Save the start time in the request metadata
+      console.log(`Request started at: ${config.metadata.startTime}`);
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  
+  // Add a response interceptor to calculate the time taken for the request
+  axios.interceptors.response.use(
+    (response) => {
+      // Calculate the time taken for the request
+      const endTime = new Date();
+      const timeTaken = endTime - response.config.metadata.startTime; // time in milliseconds
+      console.log(`Request completed in ${timeTaken} ms`);
+      return response;
+    },
+    (error) => {
+      // Handle errors, like when a request fails
+      if (error.config && error.config.metadata) {
+        const endTime = new Date();
+        const timeTaken = endTime - error.config.metadata.startTime;
+        console.log(`Request failed after ${timeTaken} ms`);
+      }
+      return Promise.reject(error);
+    }
+  );
+  
+//#endregion
+
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
  * - The progressBar element has already been created for you.
